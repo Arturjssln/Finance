@@ -1,0 +1,195 @@
+nodes:  
+  -
+    - Salary
+    - Bonus
+    - Airbnb
+    - Capital Gain
+    - Dividend
+    - Pension Emp. Match
+    - Other Income
+  -
+    - Gross Income
+  -
+    - Taxable Income
+    - Non-Taxable Income
+  -
+    - Net Income
+    - Taxes
+    - Social Security
+    - Retirement
+  -
+    - Savings
+    - Expenses
+  -
+    - Rent
+    - Utilities
+    - Food
+    - Transportation
+    - Health
+    - Mandatory Health Ins.
+    - Other Ins.
+    - Fun
+    - Others
+    - Unknown
+    - ETFs
+    - Savings Account
+    - Federal
+    - Cantonal
+    - Communal
+    - AHV
+    - ALV
+    - UI
+    - Pillar 2
+    - Pillar 3a
+
+required:
+Salary: 
+  type: float
+  min: 0
+  max: 1000000
+
+- Rent
+- Food
+
+optional:
+- Bonus
+- Airbnb
+- Capital Gain
+- Dividend
+- Other Income
+- Utilities
+- Transportation
+- Health
+- Mandatory Health Ins.
+- Other Ins.
+- Fun
+- Others
+- ETFs
+- Savings Account
+- Taxes
+- Federal
+- Cantonal
+- Communal
+- AHV
+- ALV
+- UI
+- Pillar 2
+- Pillar 3a
+
+auto_generated:
+- Gross Income
+- Pension Emp. Match
+- Taxable Income
+- Non-Taxable Income
+- Net Income
+- Expenses
+- Savings
+- Social Security
+- Retirement
+- Unknown
+- Taxes
+
+
+links:
+  -
+    - Salary
+    - Gross Income
+  -
+    - Bonus
+    - Gross Income
+  -
+    - Airbnb
+    - Gross Income
+  - 
+    - Capital Gain
+    - Gross Income
+  -
+    - Dividend
+    - Gross Income
+  -
+    - Pension Emp. Match
+    - Non-Taxable Income
+  -
+    - Other Income
+    - Gross Income
+  -
+    - Gross Income
+    - Taxable Income
+  -
+    - Gross Income
+    - Non-Taxable Income
+  -
+    - Taxable Income
+    - Net Income
+  -
+    - Taxable Income
+    - Taxes
+  -
+    - Non-Taxable Income
+    - Net Income
+  -
+    - Non-Taxable Income
+    - Social Security
+  -
+    - Non-Taxable Income
+    - Retirement
+  -
+    - Net Income
+    - Expenses
+  -
+    - Net Income
+    - Savings
+  -
+    - Expenses
+    - Rent
+  -
+    - Expenses
+    - Utilities
+  -
+    - Expenses
+    - Food
+  -
+    - Expenses
+    - Transportation
+  -
+    - Expenses
+    - Health
+  -
+    - Expenses
+    - Other Ins.
+  -
+    - Expenses
+    - Fun
+  -
+    - Expenses
+    - Others
+  -
+    - Savings
+    - ETFs
+  -
+    - Savings
+    - Savings Account
+  -
+    - Taxes
+    - Federal
+  -
+    - Taxes
+    - Cantonal
+  -
+    - Taxes
+    - Communal
+  -
+    - Social Security
+    - AHV
+  -
+    - Social Security
+    - UI
+  -
+    - Social Security
+    - Mandatory Health Ins.
+  -
+    - Retirement
+    - Pillar 2
+  -
+    - Retirement
+    - Pillar 3a
