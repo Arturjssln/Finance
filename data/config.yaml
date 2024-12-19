@@ -3,19 +3,19 @@ nodes:
     - Salary
     - Bonus
     - Airbnb
-    - Capital Gain
+    - Capital_Gain
     - Dividend
-    - Pension Emp. Match
-    - Other Income
+    - Pension_Emp_Match
+    - Other_Income
   -
-    - Gross Income
+    - Gross_Income
   -
-    - Taxable Income
-    - Non-Taxable Income
+    - Taxable_Income
+    - Non_Taxable_Income
   -
-    - Net Income
+    - Net_Income
     - Taxes
-    - Social Security
+    - Social_Security
     - Retirement
   -
     - Savings
@@ -26,46 +26,43 @@ nodes:
     - Food
     - Transportation
     - Health
-    - Mandatory Health Ins.
-    - Other Ins.
+    - Mandatory_Health_Ins
+    - Other_Ins
     - Fun
+    - Vacation
+    - Clothes
     - Others
-    - Unknown
     - ETFs
-    - Savings Account
+    - Savings_Account
     - Federal
     - Cantonal
     - Communal
     - AHV
     - ALV
     - UI
-    - Pillar 2
-    - Pillar 3a
+    - Pillar_2
+    - Pillar_3a
 
 required:
-Salary: 
-  type: float
-  min: 0
-  max: 1000000
-
+- Salary
 - Rent
-- Food
 
 optional:
 - Bonus
 - Airbnb
-- Capital Gain
+- Capital_Gain
 - Dividend
-- Other Income
+- Other_Income
 - Utilities
 - Transportation
 - Health
-- Mandatory Health Ins.
-- Other Ins.
+- Mandatory_Health_Ins
+- Other_Ins
 - Fun
-- Others
+- Clothes
+- Vacation
 - ETFs
-- Savings Account
+- Savings_Account
 - Taxes
 - Federal
 - Cantonal
@@ -73,72 +70,89 @@ optional:
 - AHV
 - ALV
 - UI
-- Pillar 2
-- Pillar 3a
+- Pillar_2
+- Pillar_3a
 
-auto_generated:
-- Gross Income
-- Pension Emp. Match
-- Taxable Income
-- Non-Taxable Income
-- Net Income
+auto_generated: # Order of the nodes matters 
+- Gross_Income
+- Pension_Emp_Match
+- Social_Security
+- Retirement
+- Non_Taxable_Income
+- Taxable_Income
+- Taxes
+- Net_Income
 - Expenses
 - Savings
-- Social Security
-- Retirement
-- Unknown
-- Taxes
+- Pillar_2
+- Others
 
+force_computation:
+- Pillar_2
+
+formulas: # Formulas for the nodes (support only + and - operations)
+  Gross_Income: Salary + Bonus + Airbnb + Capital_Gain + Dividend + Other_Income
+  Pension_Emp_Match: Pillar_2
+  Pillar_2: Pillar_2 + Pension_Emp_Match
+  Social_Security: AHV + ALV + UI + Mandatory_Health_Ins
+  Retirement: Pillar_2 + Pillar_3a
+  Non_Taxable_Income: Retirement + Social_Security
+  Taxable_Income: Gross_Income - Non_Taxable_Income
+  Taxes: Federal + Cantonal + Communal
+  Net_Income: Taxable_Income - Taxes
+  Expenses: Rent + Utilities + Food + Transportation + Health + Mandatory_Health_Ins + Other_Ins + Fun + Vacation + Clothes
+  Others: Net_Income - Expenses - Savings
+  Savings: ETFs + Savings_Account
 
 links:
   -
     - Salary
-    - Gross Income
+    - Gross_Income
   -
     - Bonus
-    - Gross Income
+    - Gross_Income
   -
     - Airbnb
-    - Gross Income
+    - Gross_Income
   - 
-    - Capital Gain
-    - Gross Income
+    - Capital_Gain
+    - Gross_Income
   -
     - Dividend
-    - Gross Income
+    - Gross_Income
   -
-    - Pension Emp. Match
-    - Non-Taxable Income
+    - Pension_Emp_Match
+    - Non_Taxable_Income
   -
-    - Other Income
-    - Gross Income
+    - Other_Income
+    - Gross_Income
   -
-    - Gross Income
-    - Taxable Income
+    - Gross_Income
+    - Taxable_Income
   -
-    - Gross Income
-    - Non-Taxable Income
+    - Gross_Income
+    - Non_Taxable_Income
   -
-    - Taxable Income
-    - Net Income
+    - Taxable_Income
+    - Net_Income
   -
-    - Taxable Income
+    - Taxable_Income
     - Taxes
   -
-    - Non-Taxable Income
-    - Net Income
+    - Non_Taxable_Income
+    - Social_Security
   -
-    - Non-Taxable Income
-    - Social Security
-  -
-    - Non-Taxable Income
+    - Non_Taxable_Income
     - Retirement
   -
-    - Net Income
+    - Net_Income
     - Expenses
   -
-    - Net Income
+    - Net_Income
     - Savings
+  -
+    - Net_Income
+    - Others
   -
     - Expenses
     - Rent
@@ -156,19 +170,22 @@ links:
     - Health
   -
     - Expenses
-    - Other Ins.
+    - Other_Ins
   -
     - Expenses
     - Fun
   -
     - Expenses
-    - Others
+    - Clothes
+  -
+    - Expenses
+    - Vacation
   -
     - Savings
     - ETFs
   -
     - Savings
-    - Savings Account
+    - Savings_Account
   -
     - Taxes
     - Federal
@@ -179,17 +196,17 @@ links:
     - Taxes
     - Communal
   -
-    - Social Security
+    - Social_Security
     - AHV
   -
-    - Social Security
+    - Social_Security
     - UI
   -
-    - Social Security
-    - Mandatory Health Ins.
+    - Social_Security
+    - Mandatory_Health_Ins
   -
     - Retirement
-    - Pillar 2
+    - Pillar_2
   -
     - Retirement
-    - Pillar 3a
+    - Pillar_3a
