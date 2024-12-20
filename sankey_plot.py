@@ -65,27 +65,18 @@ class SankeyContent:
                         operators.append(char)
                         start = i + 1
                 elements.append(formula[start:])
-                
                 # calculate value
                 value = 0
-                debug = []
                 for i, element in enumerate(elements):
                     if element in self.nodes:
                         if i == 0:
-                            debug.append(self.G.nodes[element]["value"])
                             value = self.G.nodes[element]["value"]
                         else:
                             if operators[i - 1] == "+":
-                                debug.append("+")
-                                debug.append(self.G.nodes[element]["value"])
                                 value += self.G.nodes[element]["value"]
                             elif operators[i - 1] == "-":
-                                debug.append("-")
-                                debug.append(self.G.nodes[element]["value"])
                                 value -= self.G.nodes[element]["value"]
                     else:
-                        debug.append("+")
-                        debug.append(element)
                         value += float(element)
                 self.G.nodes[auto_generated_key]["value"] = value
 
@@ -113,45 +104,3 @@ class SankeyContent:
             print(f"Node not found in list of nodes: {link[0]} or {link[1]}")
         return source, target, values, link_colors
 
-
-# read nodes from yaml file
-data = yaml.load(open("data/config.yaml"), Loader=yaml.FullLoader)
-
-# Create SankeyContent object
-sankey = SankeyContent(data)
-
-sankey.read_values("input/artur.yaml")
-
-source, target, values, link_colors = sankey.convert_format()
-
-# Create Sankey plot
-fig = go.Figure(go.Sankey(
-    node=dict(
-        pad=20,  # Space between nodes
-        thickness=20,  # Node thickness
-        line=dict(color="black", width=0.5),
-        label=sankey.nodes,
-        color=sankey.node_colors,  # Automatically generated colors for nodes
-        align="left"
-    ),
-    link=dict(
-        source=source,
-        target=target,
-        value=values,
-        color=link_colors  # Automatically generated colors for links
-    )
-))
-
-# Update layout
-fig.update_layout(
-    title_text="Income and Expense Flow with Automatic Colors",
-    title_font_size=20,
-    font=dict(size=12, color="black"),
-    hoverlabel=dict(bgcolor="white", font_size=12, font_family="Arial"),
-    plot_bgcolor="white"
-)
-
-fig.show()
-
-fig.write_image("/Users/jesslen/Documents/Github/Finance/output/sankey_plot.png")
-fig.write_html("/Users/jesslen/Documents/Github/Finance/output/sankey_plot.html")
