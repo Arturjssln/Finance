@@ -29,11 +29,19 @@ nodes:
     - Mandatory_Health_Ins
     - Other_Ins
     - Fun
+    - Sport
+    - Car
+    - Pets
     - Vacation
     - Clothes
+    - Culture
+    - Home
     - Others
     - ETFs
     - Savings_Account
+    - CH
+    - DE
+    - FR
     - Federal
     - Cantonal
     - Communal
@@ -59,11 +67,20 @@ optional:
 - Mandatory_Health_Ins
 - Other_Ins
 - Fun
+- Food
+- Car
+- Pets
 - Clothes
+- Sport 
+- Culture
+- Home
 - Vacation
 - ETFs
 - Savings_Account
 - Taxes
+- CH
+- DE
+- FR
 - Federal
 - Cantonal
 - Communal
@@ -76,6 +93,7 @@ optional:
 auto_generated: # Order of the nodes matters 
 - Gross_Income
 - Pension_Emp_Match
+- Pillar_2
 - Social_Security
 - Retirement
 - Non_Taxable_Income
@@ -84,7 +102,6 @@ auto_generated: # Order of the nodes matters
 - Net_Income
 - Expenses
 - Savings
-- Pillar_2
 - Others
 
 force_computation:
@@ -97,10 +114,10 @@ formulas: # Formulas for the nodes (support only + and - operations)
   Social_Security: AHV + ALV + UI + Mandatory_Health_Ins
   Retirement: Pillar_2 + Pillar_3a
   Non_Taxable_Income: Retirement + Social_Security
-  Taxable_Income: Gross_Income - Non_Taxable_Income
-  Taxes: Federal + Cantonal + Communal
+  Taxable_Income: Gross_Income - Non_Taxable_Income + Pension_Emp_Match
+  Taxes: Federal + Cantonal + Communal + CH + DE + FR
   Net_Income: Taxable_Income - Taxes
-  Expenses: Rent + Utilities + Food + Transportation + Health + Mandatory_Health_Ins + Other_Ins + Fun + Vacation + Clothes
+  Expenses: Rent + Utilities + Food + Transportation + Health + Other_Ins + Fun + Vacation + Clothes + Sport + Culture + Car + Pets + Home
   Others: Net_Income - Expenses - Savings
   Savings: ETFs + Savings_Account
 
@@ -179,6 +196,21 @@ links:
     - Clothes
   -
     - Expenses
+    - Car
+  -
+    - Expenses
+    - Pets
+  -
+    - Expenses
+    - Sport
+  -
+    - Expenses
+    - Culture
+  - 
+    - Expenses
+    - Home
+  -
+    - Expenses
     - Vacation
   -
     - Savings
@@ -191,10 +223,22 @@ links:
     - Federal
   -
     - Taxes
+    - DE
+  -
+    - Taxes
+    - FR
+  -
+    - Taxes
+    - CH
+  -
+    - Taxes
     - Cantonal
   -
     - Taxes
     - Communal
+  -
+    - Social_Security
+    - ALV
   -
     - Social_Security
     - AHV

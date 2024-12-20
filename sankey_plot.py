@@ -28,7 +28,7 @@ class SankeyContent:
         colors_id = [color for sublist in colors_id for color in sublist]
         cmap = plt.get_cmap("Pastel1")
         self.node_colors = [mcolors.to_hex(cmap(i)[:3]) for i in colors_id]
-        self.link_colors = [brighten_color(mcolors.to_hex(cmap(colors_id[self.nodes.index(link[0])])[:3])) for link in self.links]        
+        self.link_colors = [brighten_color(mcolors.to_hex(cmap(colors_id[self.nodes.index(link[0])])[:3])) for link in self.links]
 
         # build graph using networkx
         self.G = nx.DiGraph()
@@ -65,34 +65,38 @@ class SankeyContent:
                         operators.append(char)
                         start = i + 1
                 elements.append(formula[start:])
+                
                 # calculate value
                 value = 0
+                debug = []
                 for i, element in enumerate(elements):
                     if element in self.nodes:
                         if i == 0:
+                            debug.append(self.G.nodes[element]["value"])
                             value = self.G.nodes[element]["value"]
                         else:
                             if operators[i - 1] == "+":
+                                debug.append("+")
+                                debug.append(self.G.nodes[element]["value"])
                                 value += self.G.nodes[element]["value"]
                             elif operators[i - 1] == "-":
+                                debug.append("-")
+                                debug.append(self.G.nodes[element]["value"])
                                 value -= self.G.nodes[element]["value"]
                     else:
+                        debug.append("+")
+                        debug.append(element)
                         value += float(element)
-                        
                 self.G.nodes[auto_generated_key]["value"] = value
 
         # Fill value for links     
         for i, link in enumerate(self.links):
-            print(f"Processing link {link[0]} -> {link[1]}")
-            print(list(nx.dfs_edges(self.G, link[1], depth_limit=1)))
-            print(len(list(nx.dfs_edges(self.G, link[1], depth_limit=1))), len(list(nx.edge_dfs(self.G, link[1], orientation="reverse"))))
-            if len(list(nx.dfs_edges(self.G, link[0], depth_limit=1))) == 1 or len(list(nx.edge_dfs(self.G, link[1], orientation="reverse"))) == 1:
+            children_nodes = [edge[1] for edge in nx.dfs_edges(self.G, link[0], depth_limit=1) if self.G.nodes[edge[1]]["value"] != 0]
+            parents_nodes = [edge[1] for edge in nx.dfs_edges(self.G.reverse(), link[1], depth_limit=1) if self.G.nodes[edge[1]]["value"] != 0]
+            if len(children_nodes) <= 1 or len(parents_nodes) <= 1:    
                 self.G.edges[link[0], link[1]]["value"] = min(self.G.nodes[link[0]]["value"], self.G.nodes[link[1]]["value"])
             else:
-                print(f"Node {link[0]} or {link[1]} has more than one child/parent.")
-                raise ValueError()
-                
-        
+                self.G.edges[link[0], link[1]]["value"] = self.G.nodes[link[1]]["value"] - sum([self.G.edges[parent, link[1]]["value"] for parent in parents_nodes if parent != link[0]])
 
     def convert_format(self):
         source, target, values, link_colors = [], [], [], []
@@ -116,7 +120,7 @@ data = yaml.load(open("data/config.yaml"), Loader=yaml.FullLoader)
 # Create SankeyContent object
 sankey = SankeyContent(data)
 
-sankey.read_values("input/sven.yaml")
+sankey.read_values("input/artur.yaml")
 
 source, target, values, link_colors = sankey.convert_format()
 
