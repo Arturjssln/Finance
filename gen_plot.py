@@ -37,11 +37,11 @@ if __name__ == "__main__":
             value=values,
             color=link_colors  # Automatically generated colors for links
         )
-    ))
+    ), layout=go.Layout(width=1000, height=500))
 
     # Update layout
     fig.update_layout(
-        title_text="Income and Expense Flow with Automatic Colors",
+        title_text="Example Sankey Plot",
         title_font_size=20,
         font=dict(size=12, color="black"),
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Arial"),
